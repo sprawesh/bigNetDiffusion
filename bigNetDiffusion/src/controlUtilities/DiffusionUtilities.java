@@ -3,7 +3,15 @@ package controlUtilities;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class DiffusionUtilities {
 	
@@ -28,8 +36,31 @@ public class DiffusionUtilities {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(obs.size()); 
-		return obs;
+		
+		return obs;		
+	}
+	
+	public HashMap<String, Double> sortMaps(HashMap<String, Double> entries, int sampleSize) {
+		
+		List<Entry<String, Double>> list = new LinkedList<Entry<String, Double>>(entries.entrySet()); 
+		
+		Collections.sort(list, new Comparator<Entry<String, Double>>() {			
+
+			@Override
+			public int compare(Entry<String, Double> value1,
+					Entry<String, Double> value2) {				
+				return value2.getValue().compareTo(value1.getValue()); 
+			}
+			
+		});
+		
+		HashMap<String, Double> sortedMap = new LinkedHashMap<String, Double>();		
+		
+		for(int i = 0; i < sampleSize; i++) {
+			Entry<String, Double> entry = list.get(i);
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+		return sortedMap;
 		
 	}
 	

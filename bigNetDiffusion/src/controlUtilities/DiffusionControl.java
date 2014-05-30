@@ -2,6 +2,9 @@ package controlUtilities;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class DiffusionControl {
 	
@@ -17,11 +20,22 @@ public class DiffusionControl {
 	public static void main(String[] args) {
 		String path = args[0];
 		String directed = args[1];
+		Double sample = Double.parseDouble(args[2]);
 		HashMap<String, Double> obs = dfu.getObservations(path, directed);
-		System.out.println("test"); 
+		int sampleSize = (int) Math.floor(sample*obs.size()); 
+		HashMap<String, Double> sobs = dfu.sortMaps(obs, sampleSize);
+		
+		Set<Entry<String, Double>> set = sobs.entrySet();
+		Iterator<Entry<String, Double>> iterator = set.iterator();
+		System.out.println("after sorting : "); 
+		while(iterator.hasNext()) {
+			Entry<String, Double> entry = (Entry<String, Double>) iterator.next();
+			System.out.println(entry.getKey() + "\t" + entry.getValue()); 
+		}
+		
+		System.out.println(set.size()); 
 		//sort them
 		
-
 	}
 
 }
